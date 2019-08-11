@@ -1,44 +1,112 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-
+using Telegram.Bot.Types;
 
 namespace boardgame_bot
 {
     public class Bot
     {
-        static ITelegramBotClient botClient;
+        public static ITelegramBotClient botClient;
+        static StateStore stateStore;
         internal static void Run(string token)
         {
+            stateStore = new StateStore();
             botClient = new TelegramBotClient(token);
             var me = botClient.GetMeAsync().Result;
             botClient.OnMessage += Bot_OnMessage;
             botClient.StartReceiving();
             Thread.Sleep(int.MaxValue);
         }
-        static async void Bot_OnMessage(object sender, MessageEventArgs e)
+        static void Bot_OnMessage(object sender, MessageEventArgs e)
         {
-            if (e.Message.Text != null)
+            var state = GetState(e);
+            AskQuestion(state, e);
+            state = UpdateState(state, e);
+            GiveResult(state, e);
+        }
+
+        private static Answers UpdateState(Answers state, MessageEventArgs e)
+        {
+            if (state.NumberOfPlayers == null && !state.WaitingForNumberOfPlayers)
             {
-                if (e.Message.Text == "/start")
+                state.WaitingForNumberOfPlayers = true;
+            }
+            else if (state.WaitingForNumberOfPlayers == true)
+            {
+                setNumberOfPlayers(state, e);
+            }
+            return state;
+        }
+
+        private static async void GiveResult(Answers state, MessageEventArgs e)
+        {
+            if (state.NumberOfPlayers == null)
+            {
+
+            }
+            else
+            {
+                Thread.Sleep(1000);
+                await botClient.SendTextMessageAsync(
+                  chatId: e.Message.Chat,
+                  text: "You should play Monopoly!");
+            }
+        }
+
+        private static void AskQuestion(Answers state, MessageEventArgs e)
+        {
+            if (state.NumberOfPlayers == null && !state.WaitingForNumberOfPlayers)
+            {
+                AskHowManyPlayers(e);
+            }
+        }
+
+        private static void setNumberOfPlayers(Answers state, MessageEventArgs e)
+        {
+            try
+            {
+                int result = Int32.Parse(e.Message.Text);
+                Console.WriteLine(result);
+                if (result == 0)
                 {
-                    Thread.Sleep(1000);
-                    await botClient.SendTextMessageAsync(
-                      chatId: e.Message.Chat,
-                      text: "How many people are going to play?");
+                    ErrorMessages.Zero("Number of players", e);
                 }
                 else
                 {
-                    Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
-                    Console.WriteLine(e.Message);
-                    Thread.Sleep(1000);
-                    await botClient.SendTextMessageAsync(
-                      chatId: e.Message.Chat,
-                      text: "Hello, want me to recommend you some boardgames? Press /start");
+                    state.NumberOfPlayers = result;
                 }
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                ErrorMessages.NotANumber(e);
+            }
+        }
+
+        private static async void AskHowManyPlayers(MessageEventArgs e)
+        {
+            Thread.Sleep(1000);
+            await botClient.SendTextMessageAsync(
+              chatId: e.Message.Chat,
+              text: "How many people are going to play?");
+        }
+
+        private static Answers GetState(MessageEventArgs e)
+        {
+            var id = e.Message.Chat.Id;
+            if (stateStore.ContainsKey(id))
+            {
+                return stateStore[id];
+            }
+            else
+            {
+                var state = new Answers();
+                stateStore.Add(id, state);
+                return state;
             }
         }
     }
-
 }
