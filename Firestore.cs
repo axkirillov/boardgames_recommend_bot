@@ -1,5 +1,5 @@
 using Google.Cloud.Firestore;
-namespace firebase
+namespace boardgame_bot
 {
     public static class Firestore
     {

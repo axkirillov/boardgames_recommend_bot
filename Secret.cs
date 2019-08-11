@@ -1,4 +1,4 @@
-namespace HelloWorld
+namespace boardgame_bot
 {
     public partial class Program
     {

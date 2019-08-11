@@ -12,7 +12,7 @@ using Google.Cloud.Storage.V1;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
-namespace HelloWorld
+namespace boardgame_bot
 {
     public partial class Program
     {

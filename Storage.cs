@@ -2,7 +2,7 @@ using Google.Cloud.Storage.V1;
 using System;
 using System.IO;
 
-namespace HelloWorld
+namespace boardgame_bot
 {
     class Storage
     {
