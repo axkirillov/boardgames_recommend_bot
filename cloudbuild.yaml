@@ -1,3 +1,4 @@
+steps:
 - name: 'gcr.io/cloud-builders/dotnet'
   args: [ 'publish', '-c', 'Release' ]
 
