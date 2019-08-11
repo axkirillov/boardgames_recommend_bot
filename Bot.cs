@@ -22,12 +22,11 @@ namespace HelloWorld
             if (e.Message.Text != null)
             {
                 Console.WriteLine($"Received a text message in chat {e.Message.Chat.Id}.");
+                Console.WriteLine(e.Message);
                 Thread.Sleep(1000);
                 await botClient.SendTextMessageAsync(
                   chatId: e.Message.Chat,
-                  text: "Пашел нахуй");
-
-
+                  text: "Hello, want me to recommend you some boardgames? Press /start");
             }
         }
     }
