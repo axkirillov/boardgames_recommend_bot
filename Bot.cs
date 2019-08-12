@@ -50,7 +50,13 @@ namespace boardgame_bot
                 await botClient.SendTextMessageAsync(
                   chatId: e.Message.Chat,
                   text: "You should play Monopoly!");
+                EraseState(e);
             }
+        }
+
+        private static void EraseState(MessageEventArgs e)
+        {
+            stateStore.Remove(e.Message.Chat.Id);
         }
 
         private static void AskQuestion(Answers state, MessageEventArgs e)
