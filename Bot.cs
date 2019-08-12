@@ -40,7 +40,7 @@ namespace boardgame_bot
             Thread.Sleep(1000);
             await botClient.SendTextMessageAsync(
               chatId: e.Message.Chat,
-              text: "Press /start to get begin");
+              text: "Press /start to begin");
         }
 
         private static void CheckStart(MessageEventArgs e, ref Answers state)
