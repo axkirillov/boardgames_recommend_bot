@@ -34,9 +34,8 @@ namespace boardgame_bot
             }
             else if (state.WaitingForNumberOfPlayers == true)
             {
-                setNumberOfPlayers(state, e);
+                setNumberOfPlayers(ref state, e);
             }
-            return state;
         }
 
         private static async void GiveResult(Answers state, MessageEventArgs e)
@@ -62,7 +61,7 @@ namespace boardgame_bot
             }
         }
 
-        private static void setNumberOfPlayers(Answers state, MessageEventArgs e)
+        private static void setNumberOfPlayers(ref Answers state, MessageEventArgs e)
         {
             try
             {
