@@ -21,12 +21,27 @@ namespace boardgame_bot
         static void Bot_OnMessage(object sender, MessageEventArgs e)
         {
             var state = GetState(e);
-            AskQuestion(state, e);
-            state = UpdateState(state, e);
-            GiveResult(state, e);
+            CheckStart(e, ref state);
+            if (state.Started)
+            {
+                AskQuestion(state, e);
+                UpdateState(ref state, e);
+                GiveResult(state, e);
+            }
+            else { 
+                
+            }
+
         }
 
-        private static Answers UpdateState(Answers state, MessageEventArgs e)
+        private static void CheckStart(MessageEventArgs e, ref Answers state)
+        {
+            if (e.Message.Text=="/start"){
+                state.Started=true;
+            }
+        }
+
+        private static void UpdateState(ref Answers state, MessageEventArgs e)
         {
             if (state.NumberOfPlayers == null && !state.WaitingForNumberOfPlayers)
             {
