@@ -28,16 +28,26 @@ namespace boardgame_bot
                 UpdateState(ref state, e);
                 GiveResult(state, e);
             }
-            else { 
-                
+            else
+            {
+                SendStartMessage(e);
             }
 
         }
 
+        private static async void SendStartMessage(MessageEventArgs e)
+        {
+            Thread.Sleep(1000);
+            await botClient.SendTextMessageAsync(
+              chatId: e.Message.Chat,
+              text: "Press /start to get begin");
+        }
+
         private static void CheckStart(MessageEventArgs e, ref Answers state)
         {
-            if (e.Message.Text=="/start"){
-                state.Started=true;
+            if (e.Message.Text == "/start")
+            {
+                state.Started = true;
             }
         }
 
