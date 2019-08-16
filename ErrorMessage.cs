@@ -1,10 +1,9 @@
-using System;
-using System.Threading;
+﻿using System.Threading;
 using Telegram.Bot.Args;
 
 namespace boardgame_bot
 {
-    internal static class ErrorMessages
+    internal static class ErrorMessage
     {
         internal static async void NotANumber(MessageEventArgs e)
         {

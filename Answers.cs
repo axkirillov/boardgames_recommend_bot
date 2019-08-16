@@ -4,8 +4,7 @@ namespace boardgame_bot
 {
     internal class Answers
     {
-        public bool Started;
+        public string Identifier;
         public Nullable<int> NumberOfPlayers;
-        public bool WaitingForNumberOfPlayers;
     }
 }

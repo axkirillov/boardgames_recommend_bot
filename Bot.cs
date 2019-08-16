@@ -21,78 +21,39 @@ namespace boardgame_bot
         static void Bot_OnMessage(object sender, MessageEventArgs e)
         {
             var state = GetState(e);
-            CheckStart(e, ref state);
-            if (state.Started)
+            switch (state.Identifier)
             {
-                AskQuestion(state, e);
-                UpdateState(ref state, e);
-                GiveResult(state, e);
+                case null:
+                    InitializeQuestions(e, state);
+                    break;
+                case "HowManyPlayers":
+                    setNumberOfPlayers(e, state);
+                    if (state.Identifier == "NumberOfPlayersSet")
+                    {
+                        Message.RecommendMonopoly(e);
+                        EraseState(e);
+                    }
+                    break;
             }
-            else
-            {
-                SendStartMessage(e);
-            }
-
         }
 
-        private static async void SendStartMessage(MessageEventArgs e)
-        {
-            Thread.Sleep(1000);
-            await botClient.SendTextMessageAsync(
-              chatId: e.Message.Chat,
-              text: "Press /start to begin");
-        }
-
-        private static void CheckStart(MessageEventArgs e, ref Answers state)
+        private static void InitializeQuestions(MessageEventArgs e, Answers state)
         {
             if (e.Message.Text == "/start")
             {
-                state.Started = true;
-            }
-        }
-
-        private static void UpdateState(ref Answers state, MessageEventArgs e)
-        {
-            if (state.NumberOfPlayers == null && !state.WaitingForNumberOfPlayers)
-            {
-                state.WaitingForNumberOfPlayers = true;
-            }
-            else if (state.WaitingForNumberOfPlayers == true)
-            {
-                setNumberOfPlayers(ref state, e);
-            }
-        }
-
-        private static async void GiveResult(Answers state, MessageEventArgs e)
-        {
-            if (state.NumberOfPlayers == null)
-            {
-
+                Message.Players(e);
+                state.Identifier = "HowManyPlayers";
             }
             else
             {
-                Thread.Sleep(1000);
-                await botClient.SendTextMessageAsync(
-                  chatId: e.Message.Chat,
-                  text: "You should play Monopoly!");
-                EraseState(e);
+                Message.Start(e);
             }
         }
-
         private static void EraseState(MessageEventArgs e)
         {
             stateStore.Remove(e.Message.Chat.Id);
         }
-
-        private static void AskQuestion(Answers state, MessageEventArgs e)
-        {
-            if (state.NumberOfPlayers == null && !state.WaitingForNumberOfPlayers)
-            {
-                AskHowManyPlayers(e);
-            }
-        }
-
-        private static void setNumberOfPlayers(ref Answers state, MessageEventArgs e)
+        private static void setNumberOfPlayers(MessageEventArgs e, Answers state)
         {
             try
             {
@@ -100,26 +61,19 @@ namespace boardgame_bot
                 Console.WriteLine(result);
                 if (result == 0)
                 {
-                    ErrorMessages.Zero("Number of players", e);
+                    ErrorMessage.Zero("Number of players", e);
                 }
                 else
                 {
                     state.NumberOfPlayers = result;
+                    state.Identifier = "NumberOfPlayersSet";
                 }
             }
             catch (FormatException ex)
             {
                 Console.WriteLine(ex.Message);
-                ErrorMessages.NotANumber(e);
+                ErrorMessage.NotANumber(e);
             }
-        }
-
-        private static async void AskHowManyPlayers(MessageEventArgs e)
-        {
-            Thread.Sleep(1000);
-            await botClient.SendTextMessageAsync(
-              chatId: e.Message.Chat,
-              text: "How many people are going to play?");
         }
 
         private static Answers GetState(MessageEventArgs e)
