@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Telegram.Bot.Args;
 
@@ -26,6 +27,14 @@ namespace boardgame_bot
             await Bot.botClient.SendTextMessageAsync(
               chatId: e.Message.Chat,
               text: "You should play Monopoly!");
+        }
+
+        internal static async void Recommend(MessageEventArgs e, Game game)
+        {
+            Thread.Sleep(1000);
+            await Bot.botClient.SendTextMessageAsync(
+              chatId: e.Message.Chat,
+              text: $"You should play {game.Name}!");
         }
     }
 }
