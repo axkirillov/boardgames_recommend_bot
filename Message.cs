@@ -36,5 +36,12 @@ namespace boardgame_bot
               chatId: e.Message.Chat,
               text: $"You should play {game.Name}!");
         }
+        internal static async void TooManyPlayers(MessageEventArgs e)
+        {
+            Thread.Sleep(1000);
+            await Bot.botClient.SendTextMessageAsync(
+              chatId: e.Message.Chat,
+              text: $"Sorry, we don't have a game for so many players");
+        }
     }
 }

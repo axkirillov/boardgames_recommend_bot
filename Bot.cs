@@ -38,7 +38,7 @@ namespace boardgame_bot
                         QuerySnapshot checkForMaxSnap = await checkForMax.GetSnapshotAsync();
                         if (checkForMaxSnap.Documents.Count == 0)
                         {
-                            Console.WriteLine("too many players");
+                            Message.TooManyPlayers(e);
                         }
                         else
                         {
