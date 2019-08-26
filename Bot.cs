@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Google.Cloud.Firestore;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 
@@ -9,8 +10,10 @@ namespace boardgame_bot
     {
         public static ITelegramBotClient botClient;
         static StateStore stateStore;
+        static CollectionReference games;
         internal static void Run(string token)
         {
+            games = Firestore.Connect();
             stateStore = new StateStore();
             botClient = new TelegramBotClient(token);
             var me = botClient.GetMeAsync().Result;
@@ -18,7 +21,7 @@ namespace boardgame_bot
             botClient.StartReceiving();
             Thread.Sleep(int.MaxValue);
         }
-        static void Bot_OnMessage(object sender, MessageEventArgs e)
+        static async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
             var state = GetState(e);
             switch (state.Identifier)
@@ -30,10 +33,53 @@ namespace boardgame_bot
                     setNumberOfPlayers(e, state);
                     if (state.Identifier == "NumberOfPlayersSet")
                     {
-                        Message.RecommendMonopoly(e);
+                        var players = state.NumberOfPlayers;
+                        var i = 1;
+                        Query query = games
+                        .OrderByDescending("Rating")
+                        .Limit(i);
+                        QuerySnapshot snapshot = await query.GetSnapshotAsync();
+                        if (snapshot.Documents.Count != 0)
+                        {
+                            Game game = snapshot[0].ConvertTo<Game>();
+                            if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
+                            {
+                                Console.WriteLine(game.Site_Id);
+                                Message.Recommend(e, game);
+                            }
+                            else
+                            {
+                                NextResult(i, state, e);
+                            }
+
+                        }
                         EraseState(e);
                     }
                     break;
+            }
+        }
+
+        private static async void NextResult(int i, Answers state, MessageEventArgs e)
+        {
+            i++;
+            var players = state.NumberOfPlayers;
+            Query query = games
+                        .OrderByDescending("Rating")
+                        .Limit(i);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            if (snapshot.Documents.Count != 0)
+            {
+                Game game = snapshot[i-1].ConvertTo<Game>();
+                if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
+                {
+                    Console.WriteLine(game.Site_Id);
+                    Message.Recommend(e, game);
+                }
+                else
+                {
+                    NextResult(i, state, e);
+                }
+
             }
         }
 
@@ -49,16 +95,17 @@ namespace boardgame_bot
                 Message.Start(e);
             }
         }
+
         private static void EraseState(MessageEventArgs e)
         {
             stateStore.Remove(e.Message.Chat.Id);
         }
+
         private static void setNumberOfPlayers(MessageEventArgs e, Answers state)
         {
             try
             {
                 int result = Int32.Parse(e.Message.Text);
-                Console.WriteLine(result);
                 if (result == 0)
                 {
                     ErrorMessage.Zero("Number of players", e);
