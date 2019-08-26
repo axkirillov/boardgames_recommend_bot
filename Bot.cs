@@ -34,24 +34,16 @@ namespace boardgame_bot
                     if (state.Identifier == "NumberOfPlayersSet")
                     {
                         var players = state.NumberOfPlayers;
-                        var i = 1;
-                        Query query = games
-                        .OrderByDescending("Rating")
-                        .Limit(i);
-                        QuerySnapshot snapshot = await query.GetSnapshotAsync();
-                        if (snapshot.Documents.Count != 0)
+                        Query checkForMax = games.WhereGreaterThanOrEqualTo("MaxPlayers", players);
+                        QuerySnapshot checkForMaxSnap = await checkForMax.GetSnapshotAsync();
+                        if (checkForMaxSnap.Documents.Count == 0)
                         {
-                            Game game = snapshot[0].ConvertTo<Game>();
-                            if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
-                            {
-                                Console.WriteLine(game.Site_Id);
-                                Message.Recommend(e, game);
-                            }
-                            else
-                            {
-                                NextResult(i, state, e);
-                            }
-
+                            Console.WriteLine("too many players");
+                        }
+                        else
+                        {
+                            var i = 1;
+                            NextResult(i, state, e);
                         }
                         EraseState(e);
                     }
@@ -69,7 +61,7 @@ namespace boardgame_bot
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             if (snapshot.Documents.Count != 0)
             {
-                Game game = snapshot[i-1].ConvertTo<Game>();
+                Game game = snapshot[i - 1].ConvertTo<Game>();
                 if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
                 {
                     Console.WriteLine(game.Site_Id);
