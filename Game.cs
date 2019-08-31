@@ -8,7 +8,7 @@ namespace boardgame_bot
         [FirestoreProperty]
         public string Name { get; set; }
         [FirestoreProperty]
-        public string Site_Id { get; set; }
+        public string Id { get; set; }
         [FirestoreProperty]
         public int MinPlayers { get; set; }
         [FirestoreProperty]
@@ -22,6 +22,6 @@ namespace boardgame_bot
         [FirestoreProperty]
         public string Image { get; set; }
         [FirestoreProperty]
-        public string Rating { get; set; }
+        public float Rating { get; set; }
     }
 }
