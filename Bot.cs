@@ -34,7 +34,7 @@ namespace boardgame_bot
                     if (state.Identifier == "NumberOfPlayersSet")
                     {
                         var players = state.NumberOfPlayers;
-                        Query checkForMax = games.WhereGreaterThanOrEqualTo("MaxPlayers", players);
+                        Query checkForMax = games.WhereGreaterThanOrEqualTo("MaxPlayers", players).Limit(1);
                         QuerySnapshot checkForMaxSnap = await checkForMax.GetSnapshotAsync();
                         if (checkForMaxSnap.Documents.Count == 0)
                         {
