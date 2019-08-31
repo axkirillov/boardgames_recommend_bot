@@ -53,7 +53,6 @@ namespace boardgame_bot
 
         private static async void NextResult(int i, Answers state, MessageEventArgs e)
         {
-            i++;
             var players = state.NumberOfPlayers;
             Query query = games
                         .OrderByDescending("Rating")
@@ -64,11 +63,12 @@ namespace boardgame_bot
                 Game game = snapshot[i - 1].ConvertTo<Game>();
                 if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
                 {
-                    Console.WriteLine(game.Site_Id);
+                    Console.WriteLine(game.Id);
                     Message.Recommend(e, game);
                 }
                 else
                 {
+                    i++;
                     NextResult(i, state, e);
                 }
 
