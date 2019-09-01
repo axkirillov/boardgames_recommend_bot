@@ -42,34 +42,50 @@ namespace boardgame_bot
                         }
                         else
                         {
-                            var i = 1;
-                            NextResult(i, state, e);
+                            DocumentSnapshot lastDocSnap = null;
+                            NextResult(lastDocSnap, state, e);
                         }
                         EraseState(e);
                     }
                     break;
             }
         }
-
-        private static async void NextResult(int i, Answers state, MessageEventArgs e)
+        private static async void NextResult(DocumentSnapshot lastDocSnap, Answers state, MessageEventArgs e)
         {
             var players = state.NumberOfPlayers;
-            Query query = games
-                        .OrderByDescending("Rating")
-                        .Limit(i);
+            Query query = null;
+            if (lastDocSnap == null)
+            {
+                query = games
+               .OrderByDescending("Rating")
+               .Limit(100);
+            }
+            else
+            {
+                query = games
+               .OrderByDescending("Rating").StartAfter(lastDocSnap)
+               .Limit(100);
+            }
+
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             if (snapshot.Documents.Count != 0)
             {
-                Game game = snapshot[i - 1].ConvertTo<Game>();
-                if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
+                var found = false;
+                foreach (DocumentSnapshot document in snapshot)
                 {
-                    Console.WriteLine(game.Id);
-                    Message.Recommend(e, game);
+                    Game game = document.ConvertTo<Game>();
+                    if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
+                    {
+                        Console.WriteLine(game.Id);
+                        Message.Recommend(e, game);
+                        found = true;
+                        break;
+                    }
                 }
-                else
+                if (found == false)
                 {
-                    i++;
-                    NextResult(i, state, e);
+                    lastDocSnap = snapshot[99];
+                    NextResult(lastDocSnap, state, e);
                 }
 
             }
