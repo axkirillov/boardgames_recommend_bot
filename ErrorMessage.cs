@@ -18,7 +18,7 @@ namespace boardgame_bot
             Thread.Sleep(1000);
             await Bot.botClient.SendTextMessageAsync(
               chatId: e.Message.Chat,
-              text: $"{v} cannot be zero");
+              text: $"{v} must be bigger than zero");
         }
     }
 }

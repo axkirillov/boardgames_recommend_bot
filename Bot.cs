@@ -98,7 +98,7 @@ namespace boardgame_bot
             try
             {
                 int result = Int32.Parse(e.Message.Text);
-                if (result == 0)
+                if (result <= 0)
                 {
                     ErrorMessage.Zero("Number of players", e);
                 }
