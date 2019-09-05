@@ -19,7 +19,8 @@ namespace boardgame_bot
             var me = botClient.GetMeAsync().Result;
             botClient.OnMessage += Bot_OnMessage;
             botClient.StartReceiving();
-            Thread.Sleep(int.MaxValue);
+            Console.Read();
+            botClient.StopReceiving();
         }
         static async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
