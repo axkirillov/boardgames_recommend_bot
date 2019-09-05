@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace boardgame_bot
 {
-    internal class Answers
+    public class Answers
     {
         public string Identifier;
         public Nullable<int> NumberOfPlayers;

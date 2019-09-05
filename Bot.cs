@@ -27,7 +27,7 @@ namespace boardgame_bot
             switch (state.Identifier)
             {
                 case null:
-                    InitializeQuestions(e, state);
+                    Question.Initialize(e, state);
                     break;
                 case "HowManyPlayers":
                     setNumberOfPlayers(e, state);
@@ -42,12 +42,20 @@ namespace boardgame_bot
                         }
                         else
                         {
-                            DocumentSnapshot lastDocSnap = null;
-                            NextResult(lastDocSnap, state, e);
+                            state.Identifier = "Ask Play Time";
+                            Question.PlayTime(e, state);
                         }
-                        EraseState(e);
                     }
                     break;
+                case "Ask Play Time":
+                    state.Identifier = "Give Result";
+                    break;
+            }
+            if (state.Identifier == "Give Result")
+            {
+                DocumentSnapshot lastDocSnap = null;
+                NextResult(lastDocSnap, state, e);
+                EraseState(e);
             }
         }
         private static async void NextResult(DocumentSnapshot lastDocSnap, Answers state, MessageEventArgs e)
@@ -88,19 +96,6 @@ namespace boardgame_bot
                     NextResult(lastDocSnap, state, e);
                 }
 
-            }
-        }
-
-        private static void InitializeQuestions(MessageEventArgs e, Answers state)
-        {
-            if (e.Message.Text == "/start")
-            {
-                Message.Players(e);
-                state.Identifier = "HowManyPlayers";
-            }
-            else
-            {
-                Message.Start(e);
             }
         }
 
