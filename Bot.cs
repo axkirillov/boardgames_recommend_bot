@@ -20,8 +20,7 @@ namespace boardgame_bot
             botClient.OnMessage += Bot_OnMessage;
             botClient.OnCallbackQuery += Bot_OnCallbackQuery;
             botClient.StartReceiving();
-            Console.Read();
-            botClient.StopReceiving();
+            Thread.Sleep(int.MaxValue);
         }
 
         private static void Bot_OnCallbackQuery(object sender, CallbackQueryEventArgs e)
