@@ -4,15 +4,16 @@ namespace boardgame_bot
 {
     public class Answers
     {
+        public long ChatId;
         public string Identifier;
         public Nullable<int> NumberOfPlayers;
-        private Nullable<int> playTime;
+        private string playTime;
 
-        public int? PlayTime { get => playTime; }
+        public string PlayTime { get => playTime; }
 
         internal void SetPlayTime(string data)
         {
-            playTime = int.Parse(data);
+            playTime = data;
         }
     }
 }
