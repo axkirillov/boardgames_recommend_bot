@@ -35,6 +35,12 @@ namespace boardgame_bot
                     state.Identifier = "Give Result";
                     break;
             }
+            if (state.Identifier == "Give Result")
+            {
+                DocumentSnapshot lastDocSnap = null;
+                NextResult(lastDocSnap, state);
+                EraseState(state.ChatId);
+            }
         }
 
         static async void Bot_OnMessage(object sender, MessageEventArgs e)
