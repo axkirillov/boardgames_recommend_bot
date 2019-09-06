@@ -143,9 +143,8 @@ namespace boardgame_bot
             }
         }
 
-        private static Answers GetState(MessageEventArgs e)
+        private static Answers GetState(long id)
         {
-            var id = e.Message.Chat.Id;
             if (stateStore.ContainsKey(id))
             {
                 return stateStore[id];
