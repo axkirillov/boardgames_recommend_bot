@@ -70,9 +70,6 @@ namespace boardgame_bot
                         }
                     }
                     break;
-                case "Ask Play Time":
-                    state.Identifier = "Give Result";
-                    break;
             }
             if (state.Identifier == "Give Result")
             {
