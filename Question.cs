@@ -24,9 +24,9 @@ namespace boardgame_bot
             await Bot.botClient.SendTextMessageAsync(
               chatId: e.Message.Chat,
               text: "How long do you want your playing session to be?",
-              replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
-                "Check sendMessage method",
-                "https://core.telegram.org/bots/api#sendmessage"
+              replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData(
+                "60 min",
+                "60"
               ))
             );
         }
