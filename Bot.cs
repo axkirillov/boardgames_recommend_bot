@@ -18,13 +18,29 @@ namespace boardgame_bot
             botClient = new TelegramBotClient(token);
             var me = botClient.GetMeAsync().Result;
             botClient.OnMessage += Bot_OnMessage;
+            botClient.OnCallbackQuery += Bot_OnCallbackQuery;
             botClient.StartReceiving();
             Console.Read();
             botClient.StopReceiving();
         }
+
+        private static void Bot_OnCallbackQuery(object sender, CallbackQueryEventArgs e)
+        {
+            long id = e.CallbackQuery.Message.Chat.Id;
+            var state = GetState(id);
+            switch (state.Identifier)
+            {
+                case "Ask Play Time":
+                    state.SetPlayTime(e.CallbackQuery.Data);
+                    state.Identifier = "Give Result";
+                    break;
+            }
+        }
+
         static async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
-            var state = GetState(e);
+            long id = e.Message.Chat.Id;
+            var state = GetState(id);
             switch (state.Identifier)
             {
                 case null:
