@@ -21,11 +21,11 @@ namespace boardgame_bot
               text: "Press /start to begin");
         }
 
-        internal static async void Recommend(MessageEventArgs e, Game game)
+        internal static async void Recommend(long id, Game game)
         {
             Thread.Sleep(1000);
             await Bot.botClient.SendTextMessageAsync(
-              chatId: e.Message.Chat,
+              chatId: id,
               text: $"You should play {game.Name}!");
         }
         internal static async void TooManyPlayers(MessageEventArgs e)
