@@ -77,11 +77,11 @@ namespace boardgame_bot
             if (state.Identifier == "Give Result")
             {
                 DocumentSnapshot lastDocSnap = null;
-                NextResult(lastDocSnap, state, e);
-                EraseState(e);
+                NextResult(lastDocSnap, state);
+                EraseState(state.ChatId);
             }
         }
-        private static async void NextResult(DocumentSnapshot lastDocSnap, Answers state, MessageEventArgs e)
+        private static async void NextResult(DocumentSnapshot lastDocSnap, Answers state)
         {
             var players = state.NumberOfPlayers;
             Query query = null;
@@ -108,7 +108,7 @@ namespace boardgame_bot
                     if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
                     {
                         Console.WriteLine(game.Id);
-                        Message.Recommend(e, game);
+                        Message.Recommend(state.ChatId, game);
                         found = true;
                         break;
                     }
@@ -116,15 +116,15 @@ namespace boardgame_bot
                 if (found == false)
                 {
                     lastDocSnap = snapshot[99];
-                    NextResult(lastDocSnap, state, e);
+                    NextResult(lastDocSnap, state);
                 }
 
             }
         }
 
-        private static void EraseState(MessageEventArgs e)
+        private static void EraseState(long id)
         {
-            stateStore.Remove(e.Message.Chat.Id);
+            stateStore.Remove(id);
         }
 
         private static void setNumberOfPlayers(MessageEventArgs e, Answers state)
@@ -159,6 +159,7 @@ namespace boardgame_bot
             {
                 var state = new Answers();
                 stateStore.Add(id, state);
+                state.ChatId = id;
                 return state;
             }
         }
