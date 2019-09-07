@@ -103,7 +103,7 @@ namespace boardgame_bot
                     Game game = document.ConvertTo<Game>();
                     var check = new Check(game,state);
                     check.Players()
-                        .PlayTime();
+                        .PlayTime().Age();
                     if (check.Result == true)
                     {
                         found = true;
