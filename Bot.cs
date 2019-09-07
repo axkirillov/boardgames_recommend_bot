@@ -101,11 +101,14 @@ namespace boardgame_bot
                 foreach (DocumentSnapshot document in snapshot)
                 {
                     Game game = document.ConvertTo<Game>();
-                    if ((game.MinPlayers <= players) && (game.MaxPlayers >= players))
+                    var check = new Check(game,state);
+                    check.Players()
+                        .PlayTime();
+                    if (check.Result == true)
                     {
-                        Console.WriteLine(game.Id);
-                        Message.Recommend(state.ChatId, game);
                         found = true;
+                        Message.Recommend(state.ChatId, game);
+                        Console.WriteLine(game.Id);
                         break;
                     }
                 }
