@@ -13,20 +13,57 @@ namespace boardgame_bot
         {
             this.game = game;
             this.state = state;
+            Result = true;
         }
 
         internal Check Players()
         {
             if ((game.MinPlayers <= state.NumberOfPlayers) && (game.MaxPlayers >= state.NumberOfPlayers))
             {
-                Result = true;
+                // remain true
+            }
+            else
+            {
+                Result = false;
             }
             return this;
         }
 
         internal Check PlayTime()
         {
-            Result = true;
+            switch (state.PlayTime)
+            {
+                case "<1":
+                    if (game.MinPlayTime < 60)
+                    {
+                        // remain true
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
+                    break;
+                case "1-2":
+                    if (game.MinPlayTime <= 120 && game.MaxPlayTime > 60)
+                    {
+                        // remain true
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
+                    break;
+                case ">2":
+                    if (game.MinPlayTime >= 120)
+                    {
+                        // remain true
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
+                    break;
+            }
             return this;
         }
     }
