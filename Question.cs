@@ -32,5 +32,13 @@ namespace boardgame_bot
               replyMarkup: new InlineKeyboardMarkup(row)
             );
         }
+        internal static async void Age(Answers state)
+        {
+            Thread.Sleep(1000);
+            await Bot.botClient.SendTextMessageAsync(
+              chatId: state.ChatId,
+              text: "How old is the youngest player?"
+            );
+        }
     }
 }
