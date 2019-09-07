@@ -31,7 +31,7 @@ namespace boardgame_bot
             {
                 case "Ask Play Time":
                     state.SetPlayTime(e.CallbackQuery.Data);
-                    state.Identifier = "Give Result";
+                    Question.Age(state);
                     break;
             }
             if (state.Identifier == "Give Result")
