@@ -65,7 +65,7 @@ namespace boardgame_bot
                         else
                         {
                             state.Identifier = "Ask Play Time";
-                            Question.PlayTime(e, state);
+                            Question.PlayTime(state);
                         }
                     }
                     break;

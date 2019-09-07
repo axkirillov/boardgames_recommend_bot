@@ -18,7 +18,7 @@ namespace boardgame_bot
                 Message.Start(e);
             }
         }
-        internal static async void PlayTime(MessageEventArgs e, Answers state)
+        internal static async void PlayTime(Answers state)
         {
             InlineKeyboardButton[] row = {
                 InlineKeyboardButton.WithCallbackData("< 1 hour", "<1"),
@@ -27,7 +27,7 @@ namespace boardgame_bot
             };
             Thread.Sleep(1000);
             await Bot.botClient.SendTextMessageAsync(
-              chatId: e.Message.Chat,
+              chatId: state.ChatId,
               text: "How long do you want your playing session to be?",
               replyMarkup: new InlineKeyboardMarkup(row)
             );
