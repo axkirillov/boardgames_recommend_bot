@@ -66,5 +66,8 @@ namespace boardgame_bot
             }
             return this;
         }
+        internal Check Age(){
+            return this;
+        }
     }
 }
