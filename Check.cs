@@ -66,7 +66,16 @@ namespace boardgame_bot
             }
             return this;
         }
-        internal Check Age(){
+        internal Check Age()
+        {
+            if (game.MinAge <= state.Age)
+            {
+                // remain true
+            }
+            else
+            {
+                Result = false;
+            }
             return this;
         }
     }

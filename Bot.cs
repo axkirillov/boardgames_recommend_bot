@@ -71,6 +71,7 @@ namespace boardgame_bot
                     }
                     break;
                     case "age":
+                    state.SetAge(e,state);
                     state.Next();
                     break;
             }

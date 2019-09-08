@@ -9,6 +9,7 @@ namespace boardgame_bot
         public string Identifier;
         private int? numberOfPlayers;
         private string playTime;
+        private int age;
         private int index = 0;
         private string[] States = {
              null,
@@ -25,6 +26,8 @@ namespace boardgame_bot
         }
         public string PlayTime { get => playTime; }
         public int? NumberOfPlayers { get => numberOfPlayers; }
+        public int Age { get => age; }
+
         internal bool SetNumberOfPlayers(MessageEventArgs e, State state)
         {
             try
@@ -51,6 +54,30 @@ namespace boardgame_bot
         internal void SetPlayTime(string data)
         {
             playTime = data;
+        }
+
+        internal bool SetAge(MessageEventArgs e, State state)
+        {
+            try
+            {
+                int result = Int32.Parse(e.Message.Text);
+                if (result <= 0)
+                {
+                    ErrorMessage.Zero("Age", state.ChatId);
+                    return false;
+                }
+                else
+                {
+                    age = result;
+                    return true;
+                }
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                ErrorMessage.NotANumber(state.ChatId);
+                return false;
+            }
         }
     }
 }
