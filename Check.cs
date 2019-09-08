@@ -54,7 +54,7 @@ namespace boardgame_bot
                     }
                     break;
                 case ">2":
-                    if (game.MinPlayTime >= 120)
+                    if (game.MaxPlayTime > 120)
                     {
                         // remain true
                     }
