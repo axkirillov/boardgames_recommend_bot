@@ -1,4 +1,5 @@
 using System;
+using Google.Cloud.Firestore;
 using Telegram.Bot.Args;
 
 namespace boardgame_bot
@@ -19,6 +20,7 @@ namespace boardgame_bot
              "result",
              "next result"
             };
+        internal DocumentSnapshot lastResult;
 
         internal void Next()
         {
