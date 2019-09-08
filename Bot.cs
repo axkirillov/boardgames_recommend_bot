@@ -74,9 +74,12 @@ namespace boardgame_bot
                         }
                     }
                     break;
-                    case "age":
-                    state.SetAge(e,state);
-                    state.Next();
+                case "age":
+                    var setAge = state.SetAge(e, state);
+                    if (setAge)
+                    {
+                        state.Next();
+                    }
                     break;
             }
             CheckIfDone(state);
@@ -105,7 +108,7 @@ namespace boardgame_bot
                 foreach (DocumentSnapshot document in snapshot)
                 {
                     Game game = document.ConvertTo<Game>();
-                    var check = new Check(game,state);
+                    var check = new Check(game, state);
                     check.Players()
                         .PlayTime().Age();
                     if (check.Result == true)
@@ -121,7 +124,9 @@ namespace boardgame_bot
                     NextResult(lastDocSnap, state);
                 }
 
-            } else {
+            }
+            else
+            {
                 Message.NotFound(state.ChatId);
             }
         }
