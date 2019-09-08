@@ -10,13 +10,20 @@ namespace boardgame_bot
         {
             if (e.Message.Text == "/start")
             {
-                Message.Players(e);
+                Question.Players(e.Message.Chat.Id);
                 state.Next();
             }
             else
             {
                 Message.Start(e);
             }
+        }
+        internal static async void Players(long id)
+        {
+            Thread.Sleep(1000);
+            await Bot.botClient.SendTextMessageAsync(
+              chatId: id,
+              text: "How many people are going to play?");
         }
         internal static async void PlayTime(State state)
         {
