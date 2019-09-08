@@ -113,7 +113,6 @@ namespace boardgame_bot
                     {
                         found = true;
                         Message.Recommend(state.ChatId, game);
-                        Console.WriteLine(game.Id);
                         break;
                     }
                 }
