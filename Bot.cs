@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Google.Cloud.Firestore;
 using Telegram.Bot;
@@ -65,8 +64,8 @@ namespace boardgame_bot
                         }
                         else
                         {
-                            state.Next();
                             Question.PlayTime(state);
+                            state.Next();
                         }
                     }
                     break;
