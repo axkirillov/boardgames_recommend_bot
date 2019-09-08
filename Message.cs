@@ -57,7 +57,7 @@ namespace boardgame_bot
             Thread.Sleep(1000);
             await Bot.botClient.SendTextMessageAsync(
               chatId: id,
-              text: $"Sorry, we could not a game that suits you");
+              text: $"Sorry, we could not find a game that suits you");
         }
     }
 }
