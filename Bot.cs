@@ -34,6 +34,11 @@ namespace boardgame_bot
                     state.Next();
                     break;
             }
+            CheckIfDone(state);
+        }
+
+        private static void CheckIfDone(State state)
+        {
             if (state.Identifier == "result")
             {
                 DocumentSnapshot lastDocSnap = null;
@@ -74,12 +79,7 @@ namespace boardgame_bot
                     state.Next();
                     break;
             }
-            if (state.Identifier == "result")
-            {
-                DocumentSnapshot lastDocSnap = null;
-                NextResult(lastDocSnap, state);
-                EraseState(state.ChatId);
-            }
+            CheckIfDone(state);
         }
         private static async void NextResult(DocumentSnapshot lastDocSnap, State state)
         {

@@ -26,7 +26,7 @@ namespace boardgame_bot
 
             };
             InlineKeyboardButton[] row2 = {
-                 InlineKeyboardButton.WithCallbackData("> 2-5 hours", "2-5"),
+                InlineKeyboardButton.WithCallbackData("> 2-5 hours", "2-5"),
                 InlineKeyboardButton.WithCallbackData("> 5 hours", ">5"),
             };
             InlineKeyboardButton[][] rows = { row1, row2 };
