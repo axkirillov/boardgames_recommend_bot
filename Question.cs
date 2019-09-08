@@ -23,7 +23,8 @@ namespace boardgame_bot
             InlineKeyboardButton[] row = {
                 InlineKeyboardButton.WithCallbackData("< 1 hour", "<1"),
                 InlineKeyboardButton.WithCallbackData("1-2 hours", "1-2"),
-                InlineKeyboardButton.WithCallbackData("> 2 hours", ">2"),
+                InlineKeyboardButton.WithCallbackData("> 2-5 hours", "2-5"),
+                InlineKeyboardButton.WithCallbackData("> 5 hours", ">2"),
             };
             Thread.Sleep(1000);
             await Bot.botClient.SendTextMessageAsync(

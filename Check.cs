@@ -34,7 +34,7 @@ namespace boardgame_bot
             switch (state.PlayTime)
             {
                 case "<1":
-                    if (game.MinPlayTime < 60)
+                    if (game.MaxPlayTime <= 60)
                     {
                         // remain true
                     }
@@ -44,7 +44,7 @@ namespace boardgame_bot
                     }
                     break;
                 case "1-2":
-                    if (game.MinPlayTime <= 120 && game.MaxPlayTime > 60)
+                    if (game.MaxPlayTime <= 120 && game.MaxPlayTime > 60)
                     {
                         // remain true
                     }
@@ -53,8 +53,18 @@ namespace boardgame_bot
                         Result = false;
                     }
                     break;
-                case ">2":
-                    if (game.MaxPlayTime > 120)
+                case "2-5":
+                    if (game.MaxPlayTime <= 300 && game.MaxPlayTime > 120)
+                    {
+                        // remain true
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
+                    break;
+                case ">5":
+                    if (game.MaxPlayTime > 300)
                     {
                         // remain true
                     }
