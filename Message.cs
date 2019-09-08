@@ -24,9 +24,10 @@ namespace boardgame_bot
         internal static async void Recommend(long id, Game game)
         {
             Thread.Sleep(1000);
-            await Bot.botClient.SendTextMessageAsync(
+            await Bot.botClient.SendPhotoAsync(
               chatId: id,
-              text: $"You should play {game.Name}!");
+              photo: game.Image,
+              caption: $"You should play {game.Name}!");
         }
         internal static async void TooManyPlayers(MessageEventArgs e)
         {
