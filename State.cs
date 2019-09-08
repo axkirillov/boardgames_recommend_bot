@@ -21,8 +21,11 @@ namespace boardgame_bot
 
         internal void Next()
         {
-            index++;
-            Identifier = States[index];
+            if (index < States.Length)
+            {
+                index++;
+                Identifier = States[index];
+            }
         }
         public string PlayTime { get => playTime; }
         public int? NumberOfPlayers { get => numberOfPlayers; }
