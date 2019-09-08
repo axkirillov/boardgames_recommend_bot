@@ -52,8 +52,8 @@ namespace boardgame_bot
                     Question.Initialize(e, state);
                     break;
                 case "await number of players":
-                    setNumberOfPlayers(e, state);
-                    if (state.Identifier == "number of players is set")
+                    var setNumber = setNumberOfPlayers(e, state);
+                    if (setNumber)
                     {
                         var players = state.NumberOfPlayers;
                         Query checkForMax = games.WhereGreaterThanOrEqualTo("MaxPlayers", players).Limit(1);
@@ -126,7 +126,7 @@ namespace boardgame_bot
             stateStore.Remove(id);
         }
 
-        private static void setNumberOfPlayers(MessageEventArgs e, State state)
+        private static bool setNumberOfPlayers(MessageEventArgs e, State state)
         {
             try
             {
@@ -134,17 +134,19 @@ namespace boardgame_bot
                 if (result <= 0)
                 {
                     ErrorMessage.Zero("Number of players", e);
+                    return false;
                 }
                 else
                 {
                     state.NumberOfPlayers = result;
-                    state.Next();
+                    return true;
                 }
             }
             catch (FormatException ex)
             {
                 Console.WriteLine(ex.Message);
                 ErrorMessage.NotANumber(e);
+                return false;
             }
         }
 
