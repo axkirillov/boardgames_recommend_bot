@@ -24,6 +24,12 @@ namespace boardgame_bot
         internal static async void Recommend(long id, Game game)
         {
             Thread.Sleep(1000);
+            Console.WriteLine(String.Join(Environment.NewLine,
+            game.Name,
+            game.MinPlayers + "-" + game.MaxPlayers + " players",
+            game.MinPlayTime + "-" + game.MaxPlayTime + " min",
+            "from " + game.MinAge + " y.o."
+            ));
             await Bot.botClient.SendPhotoAsync(
               chatId: id,
               photo: game.Image,
