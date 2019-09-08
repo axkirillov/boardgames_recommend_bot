@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Telegram.Bot.Args;
 
 namespace boardgame_bot
@@ -21,7 +21,7 @@ namespace boardgame_bot
 
         internal void Next()
         {
-            if (index < States.Length)
+            if (index+1 < States.Length)
             {
                 index++;
                 Identifier = States[index];
