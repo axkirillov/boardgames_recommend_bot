@@ -127,6 +127,7 @@ namespace boardgame_bot
                     if (check.Result == true)
                     {
                         found = true;
+                        state.lastResult = document;
                         Message.Recommend(state.ChatId, game);
                         break;
                     }
