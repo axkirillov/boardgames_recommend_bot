@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Google.Cloud.Firestore;
 using Telegram.Bot.Args;
 
@@ -24,7 +24,7 @@ namespace boardgame_bot
 
         internal void Next()
         {
-            if (index+1 < States.Length)
+            if (index + 1 < States.Length)
             {
                 index++;
                 Identifier = States[index];
