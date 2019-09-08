@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace boardgame_bot
 {
@@ -23,6 +24,13 @@ namespace boardgame_bot
 
         internal static async void Recommend(long id, Game game)
         {
+            InlineKeyboardButton[] row1 = {
+                InlineKeyboardButton.WithCallbackData("Give me another one", "another"),
+            };
+            InlineKeyboardButton[] row2 = {
+                InlineKeyboardButton.WithCallbackData("Start over", "startover"),
+            };
+            InlineKeyboardButton[][] rows = { row1, row2 };
             Thread.Sleep(1000);
             Console.WriteLine(String.Join(Environment.NewLine,
             game.Name,
@@ -33,7 +41,9 @@ namespace boardgame_bot
             await Bot.botClient.SendPhotoAsync(
               chatId: id,
               photo: game.Image,
-              caption: $"You should play {game.Name}!");
+              caption: $"You should play {game.Name}!",
+              replyMarkup: new InlineKeyboardMarkup(rows)
+            );
         }
         internal static async void TooManyPlayers(MessageEventArgs e)
         {
