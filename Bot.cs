@@ -134,8 +134,7 @@ namespace boardgame_bot
                 }
                 if (found == false)
                 {
-                    lastDocSnap = snapshot[99];
-                    NextResult(lastDocSnap, state);
+                    NextResult(snapshot[snapshot.Documents.Count-1], state);
                 }
 
             }
