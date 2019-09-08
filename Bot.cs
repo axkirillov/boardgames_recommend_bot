@@ -132,29 +132,6 @@ namespace boardgame_bot
             stateStore.Remove(id);
         }
 
-        private static bool setNumberOfPlayers(MessageEventArgs e, State state)
-        {
-            try
-            {
-                int result = Int32.Parse(e.Message.Text);
-                if (result <= 0)
-                {
-                    ErrorMessage.Zero("Number of players", state.ChatId);
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine(ex.Message);
-                ErrorMessage.NotANumber(state.ChatId);
-                return false;
-            }
-        }
-
         private static State GetState(long id)
         {
             if (stateStore.ContainsKey(id))
