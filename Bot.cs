@@ -33,6 +33,21 @@ namespace boardgame_bot
                     Question.Age(state);
                     state.Next();
                     break;
+                case "result":
+                case "next result":
+                    if (e.CallbackQuery.Data == "another")
+                    {
+                        NextResult(state.lastResult, state);
+                        state.Next();
+                    }
+                    else if (e.CallbackQuery.Data == "startover")
+                    {
+                        EraseState(id);
+                        state = GetState(id);
+                        Question.Players(state.ChatId);
+                        state.Next();
+                    }
+                    break;
             }
             CheckIfDone(state);
         }
@@ -41,9 +56,7 @@ namespace boardgame_bot
         {
             if (state.Identifier == "result")
             {
-                DocumentSnapshot lastDocSnap = null;
-                NextResult(lastDocSnap, state);
-                EraseState(state.ChatId);
+                NextResult(null, state);
             }
         }
 
