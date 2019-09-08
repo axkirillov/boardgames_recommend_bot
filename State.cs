@@ -11,10 +11,10 @@ namespace boardgame_bot
         private int index = 0;
         private string[] States = {
              null,
-             "await number of players",
-             "number of players is set",
-             "Ask Play Time",
-             "Give Result"
+             "number of players",
+             "play time",
+             "age",
+             "result"
             };
 
         internal void Next()

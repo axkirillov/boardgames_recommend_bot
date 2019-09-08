@@ -29,12 +29,13 @@ namespace boardgame_bot
             var state = GetState(id);
             switch (state.Identifier)
             {
-                case "Ask Play Time":
+                case "play time":
                     state.SetPlayTime(e.CallbackQuery.Data);
                     Question.Age(state);
+                    state.Next();
                     break;
             }
-            if (state.Identifier == "Give Result")
+            if (state.Identifier == "result")
             {
                 DocumentSnapshot lastDocSnap = null;
                 NextResult(lastDocSnap, state);
@@ -51,7 +52,7 @@ namespace boardgame_bot
                 case null:
                     Question.Initialize(e, state);
                     break;
-                case "await number of players":
+                case "number of players":
                     var setNumber = setNumberOfPlayers(e, state);
                     if (setNumber)
                     {
@@ -69,8 +70,11 @@ namespace boardgame_bot
                         }
                     }
                     break;
+                    case "age":
+                    state.Next();
+                    break;
             }
-            if (state.Identifier == "Give Result")
+            if (state.Identifier == "result")
             {
                 DocumentSnapshot lastDocSnap = null;
                 NextResult(lastDocSnap, state);
