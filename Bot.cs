@@ -97,11 +97,11 @@ namespace boardgame_bot
             }
             CheckIfDone(state);
         }
-        private static async void NextResult(DocumentSnapshot lastDocSnap, State state)
+        private static async void NextResult(DocumentSnapshot startAtThisSnap, State state)
         {
             var players = state.NumberOfPlayers;
             Query query = null;
-            if (lastDocSnap == null)
+            if (startAtThisSnap == null)
             {
                 query = games
                .OrderByDescending("Rating")
@@ -110,7 +110,7 @@ namespace boardgame_bot
             else
             {
                 query = games
-               .OrderByDescending("Rating").StartAfter(lastDocSnap)
+               .OrderByDescending("Rating").StartAfter(startAtThisSnap)
                .Limit(100);
             }
 
