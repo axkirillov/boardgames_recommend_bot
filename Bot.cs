@@ -53,7 +53,7 @@ namespace boardgame_bot
                     Question.Initialize(e, state);
                     break;
                 case "number of players":
-                    var setNumber = setNumberOfPlayers(e, state);
+                    var setNumber = state.SetNumberOfPlayers(e, state);
                     if (setNumber)
                     {
                         var players = state.NumberOfPlayers;
@@ -137,19 +137,18 @@ namespace boardgame_bot
                 int result = Int32.Parse(e.Message.Text);
                 if (result <= 0)
                 {
-                    ErrorMessage.Zero("Number of players", e);
+                    ErrorMessage.Zero("Number of players", state.ChatId);
                     return false;
                 }
                 else
                 {
-                    state.NumberOfPlayers = result;
                     return true;
                 }
             }
             catch (FormatException ex)
             {
                 Console.WriteLine(ex.Message);
-                ErrorMessage.NotANumber(e);
+                ErrorMessage.NotANumber(state.ChatId);
                 return false;
             }
         }
