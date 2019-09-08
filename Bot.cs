@@ -77,7 +77,7 @@ namespace boardgame_bot
                 EraseState(state.ChatId);
             }
         }
-        private static async void NextResult(DocumentSnapshot lastDocSnap, Answers state)
+        private static async void NextResult(DocumentSnapshot lastDocSnap, State state)
         {
             var players = state.NumberOfPlayers;
             Query query = null;
@@ -126,7 +126,7 @@ namespace boardgame_bot
             stateStore.Remove(id);
         }
 
-        private static void setNumberOfPlayers(MessageEventArgs e, Answers state)
+        private static void setNumberOfPlayers(MessageEventArgs e, State state)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace boardgame_bot
             }
         }
 
-        private static Answers GetState(long id)
+        private static State GetState(long id)
         {
             if (stateStore.ContainsKey(id))
             {
@@ -156,7 +156,7 @@ namespace boardgame_bot
             }
             else
             {
-                var state = new Answers();
+                var state = new State();
                 stateStore.Add(id, state);
                 state.ChatId = id;
                 return state;

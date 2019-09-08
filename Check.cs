@@ -5,11 +5,11 @@ namespace boardgame_bot
     internal class Check
     {
         private Game game;
-        private Answers state;
+        private State state;
 
         public bool Result;
 
-        public Check(Game game, Answers state)
+        public Check(Game game, State state)
         {
             this.game = game;
             this.state = state;

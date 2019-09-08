@@ -6,7 +6,7 @@ namespace boardgame_bot
 {
     public class Question
     {
-        public static void Initialize(MessageEventArgs e, Answers state)
+        public static void Initialize(MessageEventArgs e, State state)
         {
             if (e.Message.Text == "/start")
             {
@@ -19,7 +19,7 @@ namespace boardgame_bot
                 Message.Start(e);
             }
         }
-        internal static async void PlayTime(Answers state)
+        internal static async void PlayTime(State state)
         {
             InlineKeyboardButton[] row = {
                 InlineKeyboardButton.WithCallbackData("< 1 hour", "<1"),
@@ -33,7 +33,7 @@ namespace boardgame_bot
               replyMarkup: new InlineKeyboardMarkup(row)
             );
         }
-        internal static async void Age(Answers state)
+        internal static async void Age(State state)
         {
             Thread.Sleep(1000);
             await Bot.botClient.SendTextMessageAsync(

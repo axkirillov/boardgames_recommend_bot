@@ -2,7 +2,7 @@
 
 namespace boardgame_bot
 {
-    public class Answers
+    public class State
     {
         public long ChatId;
         public string Identifier;
