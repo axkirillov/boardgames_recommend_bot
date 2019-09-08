@@ -122,6 +122,8 @@ namespace boardgame_bot
                     NextResult(lastDocSnap, state);
                 }
 
+            } else {
+                Message.NotFound(state.ChatId);
             }
         }
 

@@ -35,5 +35,12 @@ namespace boardgame_bot
               chatId: e.Message.Chat,
               text: $"Sorry, we don't have a game for so many players");
         }
+        internal static async void NotFound(long id)
+        {
+            Thread.Sleep(1000);
+            await Bot.botClient.SendTextMessageAsync(
+              chatId: id,
+              text: $"Sorry, we could not a game that suits you");
+        }
     }
 }
