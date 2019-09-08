@@ -51,9 +51,9 @@ namespace boardgame_bot
                 case null:
                     Question.Initialize(e, state);
                     break;
-                case "HowManyPlayers":
+                case "await number of players":
                     setNumberOfPlayers(e, state);
-                    if (state.Identifier == "NumberOfPlayersSet")
+                    if (state.Identifier == "number of players is set")
                     {
                         var players = state.NumberOfPlayers;
                         Query checkForMax = games.WhereGreaterThanOrEqualTo("MaxPlayers", players).Limit(1);
@@ -64,7 +64,7 @@ namespace boardgame_bot
                         }
                         else
                         {
-                            state.Identifier = "Ask Play Time";
+                            state.Next();
                             Question.PlayTime(state);
                         }
                     }
@@ -138,7 +138,7 @@ namespace boardgame_bot
                 else
                 {
                     state.NumberOfPlayers = result;
-                    state.Identifier = "NumberOfPlayersSet";
+                    state.Next();
                 }
             }
             catch (FormatException ex)

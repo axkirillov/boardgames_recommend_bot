@@ -11,7 +11,8 @@ namespace boardgame_bot
             if (e.Message.Text == "/start")
             {
                 Message.Players(e);
-                state.Identifier = "HowManyPlayers";
+                // state.Identifier = "HowManyPlayers";
+                state.Next();
             }
             else
             {
