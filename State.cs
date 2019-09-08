@@ -16,7 +16,8 @@ namespace boardgame_bot
              "number of players",
              "play time",
              "age",
-             "result"
+             "result",
+             "next result"
             };
 
         internal void Next()
