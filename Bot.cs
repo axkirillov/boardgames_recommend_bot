@@ -141,7 +141,6 @@ namespace boardgame_bot
             else
             {
                 Message.NotFound(state.ChatId);
-                EraseState(state.ChatId);
             }
         }
 
