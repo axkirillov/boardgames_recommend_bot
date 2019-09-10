@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Google.Cloud.Storage.V1;
-using System.Diagnostics;
 using Newtonsoft.Json;
 
 namespace boardgame_bot
